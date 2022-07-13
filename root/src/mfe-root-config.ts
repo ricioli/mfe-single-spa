@@ -19,9 +19,10 @@ const register = (app: IApp): void => {
   try {
     const response = await fetch('');
     const applications = await response.text().then(() => [
+
       {
-        name: '@single-spa/welcome',
-        url: 'https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js',
+        name: '@mfe/base',
+        url: '@mfe/base',
         activeWhen: ['/'],
         exact: false,
       },
