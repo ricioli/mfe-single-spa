@@ -47,10 +47,10 @@ const usePerfilAcesso = (permission) => {
     return getPerfilAcessoRecursive(value, 0);
   };
 
-  const getLinks = (obj, newLevel) => {
+  const getLinks = (obj, newLevel = null) => {
     return obj.reduce((acc, { children, ...item }) => {
       let level = newLevel || 0;
-      let newItem = { ...item };
+      const newItem = { ...item };
       const elementName = `${getComponentName(newItem.path, level)}`;
 
       if (children) {
@@ -77,7 +77,7 @@ const usePerfilAcesso = (permission) => {
     }, {});
   };
 
-  const getRoutes = (obj, newLevel) => {
+  const getRoutes = (obj, newLevel = null) => {
     return obj.map(({ children, ...item }) => {
       let level = newLevel || 0;
 
@@ -137,7 +137,7 @@ const usePerfilAcesso = (permission) => {
     });
   };
 
-  const getMenu = (items, newLevel) => {
+  const getMenu = (items, newLevel = null) => {
     return items.map(({ children, ...item }) => {
       let level = newLevel || 0;
 

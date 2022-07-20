@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
-import { Navigate, useRoutes } from "react-router";
-import { usePerfilAcessoContext } from "../contexts/PerfilAcessoContext";
-import guestRoutes from "./guestRoutes";
-import Protected from "./accessControl/Protected";
-import RouteComponents from "./RouteComponents";
-import NotFound404 from '../pages/Modulos/GestaoCheckout/pages/NotFound404';
+import { useSelector } from 'react-redux';
+import { Navigate, useRoutes } from 'react-router';
+import { usePerfilAcessoContext } from '../contexts/PerfilAcessoContext';
+import guestRoutes from './guestRoutes';
+// import Protected from './accessControl/Protected';
+import RouteComponents from './RouteComponents';
+import NotFound404 from '@/pages/NotFound404';
 
 const Routes = () => {
   const account = useSelector(({ account }) => account);
@@ -15,17 +15,15 @@ const Routes = () => {
     ? [
         ...guestRoutes,
         {
-          path: "*",
+          path: '*',
           element: <Navigate replace to="/login" />,
         },
       ]
     : [
         ...guestRoutes,
         {
-          path: "/",
-          element: (
-            <RouteComponents component="Home" />
-          ),
+          path: '/',
+          element: <RouteComponents component="Home" />,
           children: [
             ...state.routes,
             // {
@@ -36,10 +34,10 @@ const Routes = () => {
             //     </Protected>
             //   ),
             // },
-            { path: "*", element: <NotFound404 /> },
+            { path: '*', element: <NotFound404 /> },
           ],
         },
-        { path: "*", element: <NotFound404 /> },
+        { path: '*', element: <NotFound404 /> },
       ];
 
   return useRoutes(routes);

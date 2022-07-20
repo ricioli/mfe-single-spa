@@ -1,19 +1,24 @@
-import { sendRequest, resolveIdentifier, resolveUrl } from './sendRequest';
+import { sendRequest, resolveIdentifier, resolveUrl, HttpMethod } from './sendRequest';
 
-interface IFunctions = {
-  ['get']: () => {};
-  ['submit']: () => {};
-  ['delete']: () => {};
+interface IFunctions {
+  normalizeId: <T>(item: T) => IItem[] | IItem;
+  get?: <T>(id?: number, query?: T) => Promise<IItem[] | IItem>;
+  submit?: <T>(item: IItem) => Promise<T>;
+  delete?: (id: number) => Promise<null>;
+}
+
+interface IItem {
+  id: number;
 }
 
 const FrontRequest = (endPoint: string, idFieldName: string, filterFunctions: string[]) => {
-  const normalize = (item) => {
+  const normalize = <T>(item: T): IItem => {
     const id = item[idFieldName];
     delete item[idFieldName];
     return { id, ...item };
   };
 
-  const normalizeId = (item) => {
+  const normalizeId = <T>(item: T): IItem[] | IItem => {
     if (Array.isArray(item)) {
       return item.map((item) => normalize(item));
     }
@@ -21,7 +26,7 @@ const FrontRequest = (endPoint: string, idFieldName: string, filterFunctions: st
   };
 
   const getFilteredFunctions = (filterFunctions: string[]) => {
-    const functions:  = { normalizeId };
+    const functions: IFunctions = { normalizeId };
 
     if (filterFunctions.includes('get')) {
       functions.get = get;
@@ -40,14 +45,14 @@ const FrontRequest = (endPoint: string, idFieldName: string, filterFunctions: st
 
   const get = (id: number, query) => {
     return sendRequest({
-      method: 'GET',
+      method: HttpMethod.GET,
       url: resolveUrl(resolveIdentifier(endPoint, id), query),
     });
   };
 
   const submit = ({ id, ...payload }) => {
     return sendRequest({
-      method: id ? 'PUT' : 'POST',
+      method: id ? HttpMethod.PUT : HttpMethod.POST,
       url: resolveIdentifier(endPoint, id),
       data: payload,
     });
@@ -55,7 +60,7 @@ const FrontRequest = (endPoint: string, idFieldName: string, filterFunctions: st
 
   const _delete = (id: number) => {
     return sendRequest({
-      method: 'DELETE',
+      method: HttpMethod.DELETE,
       url: resolveIdentifier(endPoint, id),
     });
   };

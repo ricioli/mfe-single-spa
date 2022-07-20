@@ -19,11 +19,16 @@ const register = (app: IApp): void => {
   try {
     const response = await fetch('');
     const applications = await response.text().then(() => [
-
       {
         name: '@mfe/base',
         url: '@mfe/base',
         activeWhen: ['/'],
+        exact: false,
+      },
+      {
+        name: '@mfe/module',
+        url: '@mfe/module',
+        activeWhen: ['/module'],
         exact: false,
       },
     ]);

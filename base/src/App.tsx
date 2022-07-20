@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-import AuthProvider from './components/AuthProvider';
+import AuthProvider from './contexts/AuthProvider';
 
 import { PerfilAcessoProvider } from './contexts/PerfilAcessoContext';
 import AppRoutes from './routes/AppRoutes';

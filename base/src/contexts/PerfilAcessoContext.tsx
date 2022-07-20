@@ -1,15 +1,50 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import controleAcessoService from '../services/controleAcessoService';
-import perfilAcesso from '../hooks/PerfilAcesso/usePerfilAcesso.js';
+import perfilAcesso from '@/hooks/PerfilAcesso/usePerfilAcesso';
 import { useSelector } from 'react-redux';
 import { useAuth } from './AuthProvider';
 import getPermission from '../hooks/PerfilAcesso/usePermission';
 
-const PerfilContext = createContext([{}, null]);
+interface IPerfilContext {
+  perfil: any[];
+  permissaoAcessoUsuario: any[];
+  routes: any[];
+  menu: any[];
+  links: any[];
+  waitingPerfil: boolean;
+}
+
+type IPerfilContextSet = (state: IPerfilContext) => void;
+
+const PerfilContext = createContext<[IPerfilContext, IPerfilContextSet]>([
+  {
+    perfil: [],
+    permissaoAcessoUsuario: [],
+    routes: [],
+    menu: [],
+    links: [],
+    waitingPerfil: true,
+  },
+  () => ({
+    perfil: [],
+    permissaoAcessoUsuario: [],
+    routes: [],
+    menu: [],
+    links: [],
+    waitingPerfil: true,
+  }),
+]);
 
 export const PerfilAcessoProvider = ({ children }) => {
   const { waitingAuthentication } = useAuth();
-  const [state, setState] = useState({ perfil: [], permissaoAcessoUsuario: [], routes: [], waitingPerfil: true });
+  const [state, setState] = useState({
+    perfil: [],
+    permissaoAcessoUsuario: [],
+    routes: [],
+    menu: [],
+    links: [],
+    waitingPerfil: true,
+  });
   const account = useSelector(({ account }) => account);
 
   const getPerfilInfo = () => {
@@ -39,6 +74,7 @@ export const PerfilAcessoProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    debugger;
     if (waitingAuthentication) return;
 
     getPerfilInfo();

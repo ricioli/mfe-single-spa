@@ -1,14 +1,8 @@
-import {
-  useEffect,
-  useCallback,
-  createContext,
-  useContext,
-  useState,
-} from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useCallback, createContext, useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { setUserData } from "../../store/actions/accountActions";
-import authService from "../../services/authService";
+import { asyncSetUserData } from '@/store/reducers/accountReducer';
+import authService from '@/services/authService';
 
 const AuthContext = createContext({});
 
@@ -18,23 +12,18 @@ function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const authenticationFinished = () => setWaitingAuthentication(false);
   const initAuth = useCallback(async () => {
-
     if (authService.isAuthenticated()) {
-      await dispatch(setUserData(authenticationFinished));
+      await dispatch(asyncSetUserData(authenticationFinished));
     } else {
       authenticationFinished();
     }
   }, [dispatch]);
 
   useEffect(() => {
-      initAuth();
+    initAuth();
   }, [initAuth]);
 
-  return (
-    <AuthContext.Provider value={{ waitingAuthentication }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ waitingAuthentication }}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);
