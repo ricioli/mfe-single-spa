@@ -8,7 +8,7 @@ const accountSlice = createSlice({
   },
   reducers: {
     setUserData: (state, { payload }) => {
-      state.usuario = payload.usuario;
+      state.usuario = payload;
     },
   },
 });
@@ -26,7 +26,6 @@ export const asyncSetUserData =
   async (dispatch) => {
     try {
       const usuario = await authService.SingInWithToken();
-
       await dispatch(setUserData(usuario));
     } finally {
       callBack();

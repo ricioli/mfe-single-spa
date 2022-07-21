@@ -74,7 +74,6 @@ export const PerfilAcessoProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    debugger;
     if (waitingAuthentication) return;
 
     getPerfilInfo();

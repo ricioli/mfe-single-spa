@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 
-import ModuloInicio from '@/pages/NotFound404';
+import ModuloGestaoCheckout from '@/pages/NotFound404';
 
-import Home from '@/pages/NotFound404';
+import Home from '@/pages/Home';
 
 const GestaoCheckoutCadastrosUnidadesList = lazy(() => import('../pages/NotFound404'));
 const GestaoCheckoutCadastrosUnidadesForm = lazy(() => import('../pages/NotFound404'));
@@ -15,7 +15,7 @@ const getComponent = (componentName) => {
   const components = {
     Home,
 
-    ModuloInicio,
+    ModuloGestaoCheckout,
 
     GestaoCheckoutCadastrosUnidadesList,
     GestaoCheckoutCadastrosUnidadesForm,

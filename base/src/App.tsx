@@ -6,7 +6,9 @@ import AuthProvider from './contexts/AuthProvider';
 import { PerfilAcessoProvider } from './contexts/PerfilAcessoContext';
 import AppRoutes from './routes/AppRoutes';
 
-function App() {
+function App(props) {
+  console.log(props.name);
+
   return (
     <Provider store={store}>
       <AuthProvider>
