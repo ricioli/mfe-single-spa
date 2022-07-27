@@ -1,5 +1,6 @@
 import authService from '@/services/authService';
 import { createSlice } from '@reduxjs/toolkit';
+import { AppDispatch } from '@/store';
 
 const accountSlice = createSlice({
   name: 'account',
@@ -16,24 +17,29 @@ const accountSlice = createSlice({
 export const { setUserData } = accountSlice.actions;
 export default accountSlice.reducer;
 
-export const signIn = (emailCpf, senha) => async (dispatch) => {
-  const usuario = await authService.SingIn(emailCpf, senha);
+export const signIn = (emailCpf: string, senha: string) => async (dispatch: AppDispatch) => {
+  const usuario = await authService.SingIn<{ username: string }>(emailCpf, senha);
   dispatch(setUserData(usuario));
 };
 
 export const asyncSetUserData =
   (callBack = () => null) =>
-  async (dispatch) => {
+  async (dispatch: AppDispatch) => {
     try {
       const usuario = await authService.SingInWithToken();
-      await dispatch(setUserData(usuario));
+      dispatch(setUserData(usuario));
+    } catch (error) {
+      console.error(error);
     } finally {
       callBack();
     }
   };
 
-export const signOut = () => async (dispatch) => {
-  await authService.SingOut();
-
-  dispatch(setUserData(null));
+export const signOut = () => async (dispatch: AppDispatch) => {
+  try {
+    await authService.SingOut();
+    dispatch(setUserData(null));
+  } catch (error) {
+    console.error(error);
+  }
 };
