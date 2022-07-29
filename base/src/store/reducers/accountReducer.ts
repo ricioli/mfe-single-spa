@@ -37,7 +37,7 @@ export const asyncSetUserData =
 
 export const signOut = () => async (dispatch: AppDispatch) => {
   try {
-    await authService.SingOut();
+    authService.SingOut();
     dispatch(setUserData(null));
   } catch (error) {
     console.error(error);

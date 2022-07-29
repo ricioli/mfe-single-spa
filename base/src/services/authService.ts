@@ -22,7 +22,7 @@ class AuthService {
     });
   };
 
-  SingOut = () => {
+  SingOut = (): void => {
     this.removeToken();
   };
 
