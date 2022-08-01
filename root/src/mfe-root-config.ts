@@ -22,13 +22,13 @@ const register = (app: IApp): void => {
       {
         name: '@mfe/base',
         url: '@mfe/base',
-        activeWhen: ['/gestao-checkout'],
+        activeWhen: ['/'],
         exact: false,
       },
       {
         name: '@mfe/module',
         url: '@mfe/module',
-        activeWhen: ['/'],
+        activeWhen: ['/gestao-checkout'],
         exact: false,
       },
     ]);
